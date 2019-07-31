@@ -37,9 +37,18 @@ def logged_in():
 
 @app.route('/logout')
 def logout():
+    login_session['name'] = None
+    login_session['logged_in'] = False
     return home()
 
-
+@app.route('/food', methods=['POST'])
+def food():
+    if request.method == 'GET':
+        return "This route"
+    else:
+        food=request.form('fave_food')
+        add_fave_food(food , login_session['name'])
+        return render_template('logged.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

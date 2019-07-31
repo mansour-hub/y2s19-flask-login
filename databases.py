@@ -11,6 +11,7 @@ session = DBSession()
 def add_user(name,secret_word):
     """Add a user to the DB."""
     user = User(username=name)
+    user.hash_password(secret_word)
     #there is a line of code missing here, what else does a user need?
     session.add(user)
     session.commit()
@@ -19,4 +20,8 @@ def get_user(username):
     """Find the first user in the DB, by their username."""
     return session.query(User).filter_by(username=username).first()
 
-
+def add_fave_food(favorite_food , username):
+	user = session.query(
+		User).filter_by(username=username).first()
+    user.fave_food=favorite_food
+	session.commit()
